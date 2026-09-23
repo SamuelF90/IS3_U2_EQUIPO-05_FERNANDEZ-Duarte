@@ -16,7 +16,7 @@ Una institución necesita un sistema web para gestionar solicitudes ciudadanas, 
 ## Enlaces de trabajo
 
 - Repositorio: <https://github.com/SamuelF90/is3-u2-solicitudes-fernandez-duarte>
-- Project: se incorporará al finalizar su configuración.
+- Project: <https://github.com/users/SamuelF90/projects/1>
 
 ## Sprint 1
 
