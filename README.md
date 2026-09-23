@@ -37,6 +37,10 @@ Una institución necesita un sistema web para gestionar solicitudes ciudadanas, 
 - **Hecha:** cumple criterios de aceptación, revisión cruzada, evidencia enlazada y Definition of Done.
 - Límites WIP: **En curso <= 3** y **En revisión <= 2**. Si se alcanza un límite, se finaliza o revisa trabajo antes de iniciar otro.
 
+## Simulación Kanban
+
+Durante la simulación se detectó un posible cuello de botella cuando dos historias alcanzan el límite de **En revisión** y una tercera no puede ingresar a esa columna. La acción acordada es que la facilitadora priorice la revisión cruzada y que el equipo no inicie trabajo nuevo hasta liberar capacidad de revisión.
+
 ## Decisiones de priorización
 
 1. El registro y el código de seguimiento se ubican primero porque habilitan cualquier consulta o gestión posterior y entregan valor inmediato al ciudadano.
