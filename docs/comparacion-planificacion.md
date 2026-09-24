@@ -24,3 +24,15 @@ La visión es brindar gestión trazable y oportuna de solicitudes ciudadanas. El
 ## Conclusión
 
 Se recomienda un enfoque híbrido. La planificación predictiva se aplica a plazos legales, estados obligatorios, cumplimiento, hitos y gobernanza. La planificación ágil se aplica al piloto, a la usabilidad, a las notificaciones, a los reportes y a toda necesidad que evolucione con la retroalimentación de ciudadanos y funcionarios.
+
+## 5. Registro de retroalimentación del piloto - Aporte Diana Duarte
+
+Para gestionar los ajustes que surgen durante el piloto, se utilizará la etiqueta `pilot-feedback`.
+
+### Política propuesta
+1. **Etiqueta:** `pilot-feedback` + Epic correspondiente.
+2. **Origen:** Toda Issue que venga de prueba con ciudadanos, funcionarios receptores o auditoría.
+3. **Campos:** Priority = Should/Could, Business value actualizado, Iteration = Sprint 2, Status = Backlog.
+4. **Flujo Kanban:** Ingresa en Backlog, se refina a Preparada solo si cumple Definition of Ready.
+5. **Trazabilidad:** Enlazar la Issue original con `Relacionado con #ID` y sin datos personales reales.
+6. **WIP:** No superar En curso <=3 y En revisión <=2.
