@@ -54,3 +54,7 @@ Durante la simulación se detectó un posible cuello de botella cuando dos histo
 - No hay tareas abiertas ni bloqueos sin registrar.
 - Los campos del Project están actualizados.
 - Las decisiones que afecten al equipo se reflejan en este README o en la documentación.
+
+## TP 5 - Enfoque Ágil
+
+La organización de aportes, ramas, Pull Requests y evidencias del caso de incidentes del campus está en [docs/tp5-plan-de-aportes.md](docs/tp5-plan-de-aportes.md). Los cambios de TP 5 se integran mediante PR revisado; no se hacen pushes directos a `main`.
