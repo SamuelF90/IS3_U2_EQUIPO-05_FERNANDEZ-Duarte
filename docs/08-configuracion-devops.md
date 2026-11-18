@@ -27,10 +27,10 @@
 1. Obtiene el código con permisos mínimos de solo lectura.
 2. Configura Python 3.12 e instala las dependencias del prototipo.
 3. Ejecuta la prueba del flujo completo: estudiante reporta, administrador resuelve y estudiante valora.
-4. Ejecuta CodeQL para análisis estático de Python.
+4. Ejecuta `pip-audit` para detectar vulnerabilidades conocidas en las dependencias Python.
 5. Publica el prototipo validado como artefacto descargable únicamente si calidad fue exitosa.
 
-El workflow no usa `pull_request_target` ni secretos de forks. El job de calidad no cuenta con permisos de despliegue; por eso un cambio no puede publicar por sí mismo fuera del ambiente de pruebas.
+El workflow no usa `pull_request_target` ni secretos de forks. El job de calidad no cuenta con permisos de despliegue; por eso un cambio no puede publicar por sí mismo fuera del ambiente de pruebas. `pip-audit` se usa en lugar de CodeQL porque el repositorio no tiene Code Scanning habilitado; cuando se habilite, puede añadirse análisis estático como control adicional.
 
 ## Ejecución local
 
