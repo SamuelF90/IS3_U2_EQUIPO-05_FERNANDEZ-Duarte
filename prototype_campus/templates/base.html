@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Campus Incidentes{% endblock %}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header><a href="/">Campus <strong>Incidentes</strong></a>{% if usuario %}<span>{{ usuario["nombre_mostrado"] }} · {{ usuario["rol"].title() }}</span><form action="/cerrar-sesion" method="post"><button>Salir</button></form>{% endif %}</header>
+  <main>
+    {% if request.query_params.get("mensaje") %}<p class="message">{{ request.query_params.get("mensaje") }}</p>{% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
