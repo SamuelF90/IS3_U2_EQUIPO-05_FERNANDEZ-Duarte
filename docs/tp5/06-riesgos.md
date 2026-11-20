@@ -80,9 +80,7 @@ Verificación de Diana Duarte del 20/11/2026 sobre `prototype_campus/` de la ram
 | R-03 | Subir un script `.sh` declarado como `image/png` | **Aceptado y guardado** ✘ | Defecto D-01 → [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24): validar la firma real del archivo. |
 | R-11 | `GET /evidencias/<archivo>` sin sesión | **200, archivo descargado** ✘ | Defecto D-02 → [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) y nuevo riesgo R-11. |
 
-**Cierre técnico:** D-01 y D-02 no se corrigen en este PR documental. Están asignados a Samuel Fernandez para
-corregirlos en una rama técnica con pruebas de regresión, y **bloquean el tag `tp5-v1.0.0`**. R-03 y R-11 pasan a
-*Mitigado* cuando se cierren [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25).
+**Cierre técnico:** D-01 y D-02 se corrigen en el [PR #26](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/pull/26), con pruebas de regresión, y **bloquean el tag `tp5-v1.0.0`** hasta que se apruebe, se fusione y se cierren [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25). R-03 y R-11 pasan a *Mitigado* después de ese cierre.
 
 > **Correcciones respecto del borrador .docx:** las prioridades se recalcularon con P × I (por ejemplo, R-03 con
 > P = 1 e I = 3 es 3, Media, no 2, Baja). R-01 ya no dice que HU-13 se desarrolló en el Sprint 3, porque pasa a la

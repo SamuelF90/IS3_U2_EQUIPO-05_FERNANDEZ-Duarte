@@ -23,8 +23,8 @@ jobs:
           python-version: '3.12'
       - name: Install prototype dependencies
         run: python -m pip install --upgrade pip && python -m pip install -r prototype_campus/requirements.txt
-      - name: Test campus prototype
-        run: python -m unittest prototype_campus/prueba_aplicacion.py
+      - name: Test prototype with coverage
+        run: python -m pip install coverage && python -m coverage run --source=prototype_campus -m unittest prototype_campus/prueba_aplicacion.py && python -m coverage report --fail-under=80
       - name: Audit dependencies
         run: python -m pip install pip-audit && pip-audit -r prototype_campus/requirements.txt
       - name: Upload prototype artifact

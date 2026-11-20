@@ -26,7 +26,7 @@
 
 1. Obtiene el código con permisos mínimos de solo lectura.
 2. Configura Python 3.12 e instala las dependencias del prototipo.
-3. Ejecuta la prueba del flujo completo: estudiante reporta, administrador resuelve y estudiante valora.
+3. Ejecuta las pruebas del flujo completo y de seguridad de evidencias, con cobertura mínima de 80 % para `aplicacion.py`.
 4. Ejecuta `pip-audit` para detectar vulnerabilidades conocidas en las dependencias Python.
 5. Publica el prototipo validado como artefacto descargable únicamente si calidad fue exitosa.
 

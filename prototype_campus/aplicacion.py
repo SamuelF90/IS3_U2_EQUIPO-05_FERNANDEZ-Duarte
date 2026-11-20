@@ -9,7 +9,7 @@ from uuid import uuid4
 
 import jwt
 from fastapi import FastAPI, File, Form, HTTPException, Request, UploadFile, status
-from fastapi.responses import RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from jwt.exceptions import InvalidTokenError
@@ -22,6 +22,16 @@ EVIDENCE_DIR = BASE_DIR / "evidencias"
 SECRET_KEY = os.environ.get("CAMPUS_SECRET_KEY", "solo-demostracion-local-no-produccion")
 ALGORITHM = "HS256"
 ALLOWED_EVIDENCE_TYPES = {"image/jpeg", "image/png", "application/pdf"}
+EVIDENCE_EXTENSIONS = {
+    "image/jpeg": {".jpg", ".jpeg"},
+    "image/png": {".png"},
+    "application/pdf": {".pdf"},
+}
+EVIDENCE_SIGNATURES = {
+    "image/jpeg": (b"\xff\xd8\xff",),
+    "image/png": (b"\x89PNG\r\n\x1a\n",),
+    "application/pdf": (b"%PDF-",),
+}
 VALID_STATUSES = {"Abierto", "En proceso", "Resuelto"}
 
 password_hash = PasswordHash.recommended()
@@ -30,7 +40,6 @@ templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
 EVIDENCE_DIR.mkdir(parents=True, exist_ok=True)
-app.mount("/evidencias", StaticFiles(directory=EVIDENCE_DIR), name="evidencias")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 
@@ -121,6 +130,16 @@ def redirect(path: str, message: str) -> RedirectResponse:
     return RedirectResponse(f"{path}{separator}mensaje={quote(message)}", status_code=status.HTTP_303_SEE_OTHER)
 
 
+def is_valid_evidence(content: bytes, filename: str, media_type: str | None) -> bool:
+    """Accepts only a supported extension whose binary signature matches its declared type."""
+    if media_type not in ALLOWED_EVIDENCE_TYPES:
+        return False
+    suffix = Path(filename).suffix.lower()
+    return suffix in EVIDENCE_EXTENSIONS[media_type] and any(
+        content.startswith(signature) for signature in EVIDENCE_SIGNATURES[media_type]
+    )
+
+
 @app.get("/")
 def home(request: Request):
     user = current_user(request)
@@ -170,11 +189,11 @@ async def create_incident(
     evidence_file = None
     evidence_name = None
     if evidencia and evidencia.filename:
-        if evidencia.content_type not in ALLOWED_EVIDENCE_TYPES:
-            return redirect("/", "La evidencia debe ser JPG, PNG o PDF.")
         content = await evidencia.read()
         if len(content) > 5 * 1024 * 1024:
             return redirect("/", "La evidencia no puede superar 5 MB.")
+        if not is_valid_evidence(content, evidencia.filename, evidencia.content_type):
+            return redirect("/", "La evidencia debe ser un JPG, PNG o PDF válido.")
         evidence_file = f"{uuid4().hex}-{Path(evidencia.filename).name}"
         evidence_name = Path(evidencia.filename).name
         (EVIDENCE_DIR / evidence_file).write_bytes(content)
@@ -189,6 +208,24 @@ async def create_incident(
             (user["id"], titulo.strip(), categoria.strip(), descripcion.strip(), ubicacion.strip(), evidence_file, evidence_name, datetime.now(timezone.utc).isoformat()),
         )
     return redirect("/", "Incidente registrado con estado Abierto.")
+
+
+@app.get("/incidentes/{incident_id}/evidencia")
+def download_evidence(request: Request, incident_id: int):
+    user = require_user(request, {"ESTUDIANTE", "FUNCIONARIO", "ADMINISTRADOR"})
+    with database() as connection:
+        incident = connection.execute(
+            "SELECT * FROM incidentes WHERE id = ?", (incident_id,)
+        ).fetchone()
+    if not incident or not incident["archivo_evidencia"]:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Evidencia no encontrada.")
+    if user["rol"] != "ADMINISTRADOR" and incident["id_reportante"] != user["id"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No tiene permiso para esta evidencia.")
+
+    evidence_path = EVIDENCE_DIR / incident["archivo_evidencia"]
+    if not evidence_path.is_file():
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Evidencia no encontrada.")
+    return FileResponse(evidence_path, filename=incident["nombre_evidencia"])
 
 
 @app.post("/incidentes/{incident_id}/valoracion")
