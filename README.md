@@ -54,3 +54,23 @@ Durante la simulación se detectó un posible cuello de botella cuando dos histo
 - No hay tareas abiertas ni bloqueos sin registrar.
 - Los campos del Project están actualizados.
 - Las decisiones que afecten al equipo se reflejan en este README o en la documentación.
+
+## TP 5 - Enfoque Ágil
+
+La planificación y los aportes del caso de incidentes del campus se mantienen separados de la evidencia histórica de Unidad 2.
+
+| Unidad | Evidencia |
+| --- | --- |
+| 2 | [Enfoque, Backlog, DoR y DoD](docs/tp5/02-enfoque-y-backlog.md) |
+| 3 y 4 | [Roadmap, sprints, estimación y forecast](docs/tp5/03-planificacion-y-estimacion.md) |
+| 8 | [Configuración, CI/CD y DevSecOps](docs/08-configuracion-devops.md) |
+
+## TP 5 - Enfoque Ágil
+
+La planificación y los aportes del caso de incidentes del campus se mantienen separados de la evidencia histórica de Unidad 2.
+
+| Unidad | Evidencia |
+| --- | --- |
+| 2 | [Enfoque, Backlog, DoR y DoD](docs/tp5/02-enfoque-y-backlog.md) |
+| 3 y 4 | [Roadmap, sprints, estimación y forecast](docs/tp5/03-planificacion-y-estimacion.md) |
+| Coordinación | [Plan de aportes, ramas y PR](docs/tp5-plan-de-aportes.md) |

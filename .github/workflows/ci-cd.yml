@@ -1,0 +1,35 @@
+name: CI-CD TP5
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install prototype dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r prototype_campus/requirements.txt
+      - name: Test campus prototype
+        run: python -m unittest prototype_campus/prueba_aplicacion.py
+      - name: Audit dependencies
+        run: python -m pip install pip-audit && pip-audit -r prototype_campus/requirements.txt
+      - name: Upload prototype artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: campus-prototype
+          path: prototype_campus
+          if-no-files-found: error
