@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Gestión de incidentes{% endblock %}
+{% block content %}
+  <h1>Gestión de incidentes</h1>
+  <table><thead><tr><th>Reporte</th><th>Reportado por</th><th>Ubicación</th><th>Estado</th></tr></thead><tbody>{% for incidente in incidentes %}<tr><td><strong>{{ incidente["titulo"] }}</strong><br>{{ incidente["categoria"] }}<br>{{ incidente["descripcion"] }}</td><td>{{ incidente["nombre_mostrado"] }}<br>{{ incidente["rol_reportante"].title() }}</td><td>{{ incidente["ubicacion"] }}</td><td><form action="/administracion/incidentes/{{ incidente['id'] }}/estado" method="post"><select name="nuevo_estado">{% for estado in estados %}<option {% if estado == incidente['estado'] %}selected{% endif %}>{{ estado }}</option>{% endfor %}</select><button>Actualizar</button></form></td></tr>{% endfor %}</tbody></table>
+{% endblock %}

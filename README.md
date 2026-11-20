@@ -57,4 +57,11 @@ Durante la simulación se detectó un posible cuello de botella cuando dos histo
 
 ## TP 5 - Enfoque Ágil
 
-La organización de aportes, ramas, Pull Requests y evidencias del caso de incidentes del campus está en [docs/tp5-plan-de-aportes.md](docs/tp5-plan-de-aportes.md). Los cambios de TP 5 se integran mediante PR revisado; no se hacen pushes directos a `main`.
+La planificación y los aportes del caso de incidentes del campus se mantienen separados de la evidencia histórica de Unidad 2.
+
+| Unidad | Evidencia |
+| --- | --- |
+| 2 | [Enfoque, Backlog, DoR y DoD](docs/tp5/02-enfoque-y-backlog.md) |
+| 3 y 4 | [Roadmap, sprints, estimación y forecast](docs/tp5/03-planificacion-y-estimacion.md) |
+| 8 | [Configuración, CI/CD y DevSecOps](docs/08-configuracion-devops.md) |
+| Coordinación | [Plan de aportes, ramas y PR](docs/tp5-plan-de-aportes.md) |
