@@ -25,10 +25,10 @@ El modelo 2023 tiene nueve características: adecuación funcional, eficiencia d
 | Característica (subcaracterística) | Necesidad del caso | Criterio verificable | Evidencia |
 | --- | --- | --- | --- |
 | Adecuación funcional (completitud, corrección) | Reportar, gestionar y valorar un incidente | Cada criterio de aceptación de una historia Hecha tiene una prueba asociada | `prueba_aplicacion.py` cubre el flujo reportar → resolver → valorar |
-| Seguridad (confidencialidad, integridad, autenticidad) | Roles, evidencias y reportes anónimos | 401 sin sesión, 403 sin rol; evidencia accesible solo para el reportante o un responsable; contenido del archivo validado; `pip-audit` sin vulnerabilidades | Verificación 7.4; defectos D-01 ([#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24)) y D-02 ([#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25)) abiertos |
+| Seguridad (confidencialidad, integridad, autenticidad) | Roles, evidencias y reportes anónimos | 401 sin sesión, 403 sin rol; evidencia accesible solo para el reportante o un responsable; contenido del archivo validado; `pip-audit` sin vulnerabilidades | D-01 y D-02 corregidos en el [PR #26](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/pull/26), pendiente de aprobación y merge |
 | Capacidad de interacción (accesibilidad, protección contra errores) | Estudiantes y funcionarios con distintos dispositivos y capacidades | Checklist WCAG 2.2 AA: etiquetas, teclado, foco visible, contraste ≥ 4.5:1, mensajes anunciados | Revisión de plantillas 7.6 |
 | Fiabilidad (tolerancia a fallos) | No perder el reporte si falla el mapa | Se puede reportar sin geolocalización (referencia manual) | Caso CP-18-03 |
-| Mantenibilidad (capacidad de prueba, modificabilidad) | Tres Sprints con cambios de prioridad | Cobertura de `aplicacion.py` ≥ 80 %; deuda técnica registrada y decreciente | Medición real: 76 % (7.7) |
+| Mantenibilidad (capacidad de prueba, modificabilidad) | Tres Sprints con cambios de prioridad | Cobertura de `aplicacion.py` ≥ 80 %; deuda técnica registrada y decreciente | Medición correctiva del PR #26: 85 % (7.7) |
 | Eficiencia de desempeño (comportamiento temporal) | Picos de uso al inicio del semestre | p95 < 2 s en las consultas principales con datos de prueba | Spike R-01; prueba de carga DT-04 |
 
 ## 7.3. Definition of Done ampliada
@@ -52,9 +52,9 @@ Amplía la DoD inicial de la [Unidad 2](tp5/02-enfoque-y-backlog.md#definition-o
 
 | Nivel | Qué verifica | Herramienta y momento | Estado en el prototipo |
 | --- | --- | --- | --- |
-| Flujo / integración | Reportar → resolver → valorar | `unittest` + `TestClient`, en cada PR (`quality`) | ✔ 1 prueba en verde |
-| Autorización | 401 sin sesión, 403 sin rol | `unittest`, en cada PR | Comportamiento correcto verificado a mano; **falta automatizar** (D-03) |
-| Validación de entradas | Campos obligatorios, estados válidos, valoración de 1 a 5 solo si está Resuelto, tipo y tamaño de evidencia | `unittest`, en cada PR | **No cubierto** (líneas 168, 173-180, 204-206, 229 sin ejecutar) |
+| Flujo / integración | Reportar → resolver → valorar | `unittest` + `TestClient`, en cada PR (`quality`) | ✔ 2 pruebas en verde |
+| Autorización | 401 sin sesión, 403 sin rol | `unittest`, en cada PR | ✔ Cubierto para alta de incidente, panel de administración y evidencia (PR #26) |
+| Validación de entradas | Campos obligatorios, estados válidos, valoración de 1 a 5 solo si está Resuelto, tipo y tamaño de evidencia | `unittest`, en cada PR | Firma y extensión de evidencia cubiertas; otros caminos de borde quedan como D-03 |
 | Seguridad de dependencias | Vulnerabilidades conocidas | `pip-audit` en `quality` | ✔ En el workflow |
 | Análisis estático | Patrones inseguros | CodeQL | No habilitado en el repositorio (Unidad 8) → DT-03 |
 | Accesibilidad | WCAG 2.2 AA básico | Checklist manual en cada PR que cambia la interfaz | Revisión 7.6 |
@@ -118,15 +118,25 @@ severidad media o baja se controlan en este registro hasta que se planifique su 
 | A-01 | `select` de estado sin etiqueta | Media | HU-08 / R-06 | `aria-label` |
 | A-02 | Mensajes no anunciados a lectores de pantalla | Baja | R-06 | `role="status"` |
 
-**Cierre técnico de D-01 y D-02:** no se corrigen en el PR documental #23. Samuel Fernandez los corrige en una rama
-técnica con pruebas de regresión; las Issues [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) **bloquean el tag `tp5-v1.0.0`**.
+### Verificación correctiva de D-01 y D-02
+
+La corrección está en el [PR #26](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/pull/26), pendiente de
+revisión y merge. Hasta que se fusione, las Issues [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24)
+
+| Defecto | Corrección y prueba de regresión | Resultado real |
+| --- | --- | --- |
+| D-01 / #24 | Se exige extensión compatible y firma binaria de JPG, PNG o PDF. La prueba sube contenido de script declarado como PNG. | Rechazado; no se crea el incidente. |
+| D-02 / #25 | Se elimina `/evidencias/` público. `GET /incidentes/{id}/evidencia` exige sesión y verifica propietario o administrador. | Ruta pública: 404; sin sesión: 401; usuario ajeno: 403; administrador: 200. |
+
+La ejecución local del PR #26 dio 2 pruebas en verde, **85 %** de cobertura de `aplicacion.py` (135/158 sentencias) y
+`pip-audit` sin vulnerabilidades conocidas. El workflow ahora bloquea el merge si la cobertura es menor que 80 %.
 
 ### Registro de deuda técnica
 
 | ID | Deuda | Origen | Costo estimado |
 | --- | --- | --- | --- |
 | DT-01 | `SECRET_KEY` con valor por defecto en el código si falta la variable de entorno | Simplificación del prototipo | 0,5 h |
-| DT-02 | La cobertura no se mide en el workflow `CI-CD TP5` | Unidad 8 | 1 h |
+| DT-02 | La cobertura no se medía en el workflow `CI-CD TP5` | Corregida en PR #26: `coverage report --fail-under=80` | 0 h pendiente |
 | DT-03 | Análisis estático (CodeQL) no habilitado | Configuración del repositorio | 1 h |
 | DT-04 | Falta prueba de carga (R-08) | Aceptado para la Release 2 | 2 h |
 
