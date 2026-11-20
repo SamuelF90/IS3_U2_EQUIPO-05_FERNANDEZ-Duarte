@@ -61,7 +61,7 @@ haya defectos.
 | Cycle time | ¿El trabajo fluye? | Fecha Hecha − fecha En desarrollo · Project | Semanal / Dev 5 | 4,6 días → más de 4 días | Revisar WIP y bloqueos en la Daily |
 | Lead time | ¿Cuánto espera un pedido? | Fecha Hecha − fecha de creación de la Issue · Project | Por Sprint / PO | 8 días → más de 8 días | Refinar antes; acortar la cola |
 | WIP | ¿Empezamos más de lo que terminamos? | Tarjetas en Preparada, En desarrollo y En pruebas · Project | Diaria / SM | 3 → por encima del límite de la columna | No iniciar trabajo nuevo; ayudar a terminar |
-| Defectos escapados | ¿Funciona la DoD? | Issues `defecto` abiertas después de la Review | Por Sprint / Dev 4 | 2 → más de 1 | Prueba de regresión; revisar la DoD en la Retro |
+| Defectos escapados | ¿Funciona la DoD? | Issues `bug` abiertas después de la Review | Por Sprint / Dev 4 | 2 → más de 1 | Prueba de regresión; revisar la DoD en la Retro |
 | Cobertura | ¿Está probada la lógica? | Sentencias ejecutadas / sentencias de `aplicacion.py` · coverage.py | Por PR / Dev 4 | **76 % real (20/11/2026)** → menos de 80 % | No pasar a Hecha sin pruebas nuevas |
 | Fallo de cambios y restauración | ¿Integrar es seguro? | Ejecuciones fallidas / total; minutos de rojo a verde · Actions | Por Sprint / Dev 5 | 0 % → más del 15 % o más de 30 min | Analizar la causa en la Retro |
 
@@ -93,11 +93,10 @@ haya defectos.
 ## 9.7. Bitácora de uso de IA
 
 Según la regla 4 de la guía. No se ingresaron datos personales, credenciales ni documentos institucionales no
-autorizados. Responsable de la validación de esta sección: Diana Duarte.
+autorizados. Responsable de la validación de esta sección: Diana Duarte. Solo se registran usos de IA que se pueden documentar con datos verificables.
 
 | Fecha | Herramienta | Propósito | Indicación (resumen) | Resultado aprovechado | Verificación humana | Correcciones |
 | --- | --- | --- | --- | --- | --- | --- |
-| _(completar)_ | _(herramienta del borrador inicial)_ | Borrador de estructura y redacción de las Unidades 5 a 9 del informe | _(completar)_ | Estructura de tablas y primera redacción | _(completar)_ | _(completar)_ |
-| 20/11/2026 | Claude | Revisar las Unidades 5, 6, 7 y 9 contra la guía y el plan de aportes; verificar el prototipo | Guía del TP, borrador .docx y "guiame para desarrollar las Unidades 5, 6, 7 y 9 en el repositorio" | Disparadores y contingencias de riesgos; reviews y retros de 3 Sprints; fichas de métricas; medición de cobertura; pruebas de seguridad del prototipo | _(Diana: confirmar que los resultados de 6.5 y 7.7 se reproducen y que todo es coherente con las Unidades 2-4 y 8)_ | Prioridades P×I recalculadas; HU-13 coherente con la Release 2; stack alineado a FastAPI y SQLite; capacidad alineada a 20 horas-equipo |
+| 20/11/2026 | Claude | Revisar las Unidades 5, 6, 7 y 9 contra la guía y el plan de aportes; verificar el prototipo | Guía del TP, borrador .docx y "guiame para desarrollar las Unidades 5, 6, 7 y 9 en el repositorio" | Disparadores y contingencias de riesgos; reviews y retros de 3 Sprints; fichas de métricas; medición de cobertura; pruebas de seguridad del prototipo | Sobre el commit `1f91b7b` del prototipo se ejecutaron `python -m unittest prototype_campus/prueba_aplicacion.py` (1 prueba, OK) y `python -m coverage run --source=prototype_campus -m unittest prototype_campus/prueba_aplicacion.py` (`aplicacion.py`: 76 %, 106/139 sentencias). Se reprodujeron D-01 (un `.sh` declarado como `image/png` devuelve 303 y queda guardado) y D-02 (`GET /evidencias/<archivo>` sin sesión devuelve 200), y se confirmó que coinciden con el código: línea 173 (`content_type`) y línea 33 (`StaticFiles`). Diana revisó los archivos del PR #23 antes de pasarlo a revisión. | Prioridades P×I recalculadas; HU-13 coherente con la Release 2; stack alineado a FastAPI y SQLite; capacidad alineada a 20 horas-equipo |
 
 > El equipo es responsable del contenido final, aunque haya sido sugerido por una herramienta de IA.

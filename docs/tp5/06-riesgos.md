@@ -8,9 +8,10 @@
 
 - **Probabilidad (P)** e **Impacto (I)**: 1 = bajo, 2 = medio, 3 = alto.
 - **Prioridad = P × I** → **Crítica** 6-9 · **Alta** 4 · **Media** 2-3 · **Baja** 1.
-- Cada riesgo se redacta como *causa → evento → efecto* y se registra como Issue con etiqueta `riesgo` en el
-  [Project](https://github.com/users/SamuelF90/projects/1). Se revisa en cada Sprint Review (estado) y en cada
-  Retrospectiva (acciones).
+- Cada riesgo se redacta como *causa → evento → efecto*. Los riesgos activos o que requieren trabajo técnico se
+  registran como Issues con etiqueta `risk`; los demás se controlan en este registro. Todos se revisan en cada
+  Sprint Review (estado) y en cada Retrospectiva (acciones).
+- Issues `risk` existentes al 20/11/2026: [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) (D-01, R-03) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) (D-02, R-11).
 - Los responsables son los roles definidos en la [Unidad 5](05-personas-y-comunicacion.md#51-roles-y-responsabilidades).
 
 ## 6.2. Identificación y análisis
@@ -53,7 +54,7 @@
 | --- | ---: | ---: | ---: | --- | --- | --- | --- |
 | R-01 | 6 | 6 | 2 (P2×I1) | Release 2 | **Transferido** | Spike S2 con índices y paginación; HU-13 pasa a la Release 2 (R-07). | Estadísticas con hasta 1 día de atraso. |
 | R-02 | 4 | 4 | 2 (P1×I2) | 2 | Mitigado | Spike S2; HU-18 con ubicación opcional y referencia manual. | Referencia manual imprecisa. |
-| R-03 | 6 | 3 (P1×I3) | 3 | 3 | **Reabierto** en el prototipo | Simulación: validación entregada en S1. Verificación real: defecto D-01 (6.5). | Rechazo de archivos legítimos (por ejemplo, HEIC). |
+| R-03 | 6 | 3 (P1×I3) | 3 | 3 | **Reabierto** en el prototipo | Simulación: validación entregada en S1. Verificación real: defecto D-01, [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) (6.5). | Rechazo de archivos legítimos (por ejemplo, HEIC). |
 | R-04 | 4 | 4 | 4 | 2 (P1×I2) | Mitigado en el diseño | Criterios de HU-17 refinados; casos de prueba CP-17 especificados ([Unidad 7](../07-calidad.md#75-casos-de-prueba-de-privacidad-hu-17-y-hu-18)). | Reportes anónimos falsos → moderación en la Release 2. |
 | R-05 | 6 | 6 | 2 (P1×I2) | 2 | Mitigado | Registro de supuestos: ninguna historia bloqueada más de 1 día en S2 y S3. | Supuestos equivocados que haya que rehacer (1 en S2). |
 | R-06 | 4 | 4 | 2 (P1×I2) | 2 | Mitigado | Checklist de resoluciones en la DoD; hallazgos A-01 y A-02 registrados. | — |
@@ -61,7 +62,7 @@
 | R-08 | 3 | 3 | 3 | 3 | Aceptado | Sin picos en pruebas; DT-04 registrada. | — |
 | R-09 | 4 | 4 | 4 | 4 | **Activo** | S2 con 85 % de capacidad por parciales, absorbida sin horas extra. | — |
 | R-10 | 3 | 3 | 1 (P1×I1) | 1 | Mitigado | Verificación real: 401 y 403 correctos (6.5); falta prueba automatizada (D-03). | — |
-| R-11 | — | — | — | 6 | **Abierto** | Detectado el 20/11/2026 (D-02). | — |
+| R-11 | — | — | — | 6 | **Abierto** | Detectado el 20/11/2026: D-02, [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25). | — |
 
 **Riesgos reducidos por entrega temprana:** R-03 se pudo **probar** con el primer incremento, en vez de estimarlo
 en abstracto (y justamente esa prueba real lo reabrió en el prototipo). R-05 se redujo porque el proceso se corrigió
@@ -76,8 +77,12 @@ Verificación de Diana Duarte del 20/11/2026 sobre `prototype_campus/` de la ram
 | --- | --- | --- | --- |
 | R-10 | `POST /incidentes` sin sesión | **401** ✔ | Agregar como prueba automatizada (D-03). |
 | R-10 | `GET /administracion` con rol estudiante | **403** ✔ | Agregar como prueba automatizada (D-03). |
-| R-03 | Subir un script `.sh` declarado como `image/png` | **Aceptado y guardado** ✘ | Defecto D-01: validar el contenido real del archivo. |
-| R-11 | `GET /evidencias/<archivo>` sin sesión | **200, archivo descargado** ✘ | Defecto D-02 y nuevo riesgo R-11. |
+| R-03 | Subir un script `.sh` declarado como `image/png` | **Aceptado y guardado** ✘ | Defecto D-01 → [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24): validar la firma real del archivo. |
+| R-11 | `GET /evidencias/<archivo>` sin sesión | **200, archivo descargado** ✘ | Defecto D-02 → [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) y nuevo riesgo R-11. |
+
+**Cierre técnico:** D-01 y D-02 no se corrigen en este PR documental. Están asignados a Samuel Fernandez para
+corregirlos en una rama técnica con pruebas de regresión, y **bloquean el tag `tp5-v1.0.0`**. R-03 y R-11 pasan a
+*Mitigado* cuando se cierren [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25).
 
 > **Correcciones respecto del borrador .docx:** las prioridades se recalcularon con P × I (por ejemplo, R-03 con
 > P = 1 e I = 3 es 3, Media, no 2, Baja). R-01 ya no dice que HU-13 se desarrolló en el Sprint 3, porque pasa a la

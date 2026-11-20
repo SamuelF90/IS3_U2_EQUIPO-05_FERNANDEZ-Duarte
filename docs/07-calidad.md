@@ -25,7 +25,7 @@ El modelo 2023 tiene nueve características: adecuación funcional, eficiencia d
 | Característica (subcaracterística) | Necesidad del caso | Criterio verificable | Evidencia |
 | --- | --- | --- | --- |
 | Adecuación funcional (completitud, corrección) | Reportar, gestionar y valorar un incidente | Cada criterio de aceptación de una historia Hecha tiene una prueba asociada | `prueba_aplicacion.py` cubre el flujo reportar → resolver → valorar |
-| Seguridad (confidencialidad, integridad, autenticidad) | Roles, evidencias y reportes anónimos | 401 sin sesión, 403 sin rol; evidencia accesible solo para el reportante o un responsable; contenido del archivo validado; `pip-audit` sin vulnerabilidades | Verificación 7.4; defectos D-01 y D-02 abiertos |
+| Seguridad (confidencialidad, integridad, autenticidad) | Roles, evidencias y reportes anónimos | 401 sin sesión, 403 sin rol; evidencia accesible solo para el reportante o un responsable; contenido del archivo validado; `pip-audit` sin vulnerabilidades | Verificación 7.4; defectos D-01 ([#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24)) y D-02 ([#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25)) abiertos |
 | Capacidad de interacción (accesibilidad, protección contra errores) | Estudiantes y funcionarios con distintos dispositivos y capacidades | Checklist WCAG 2.2 AA: etiquetas, teclado, foco visible, contraste ≥ 4.5:1, mensajes anunciados | Revisión de plantillas 7.6 |
 | Fiabilidad (tolerancia a fallos) | No perder el reporte si falla el mapa | Se puede reportar sin geolocalización (referencia manual) | Caso CP-18-03 |
 | Mantenibilidad (capacidad de prueba, modificabilidad) | Tres Sprints con cambios de prioridad | Cobertura de `aplicacion.py` ≥ 80 %; deuda técnica registrada y decreciente | Medición real: 76 % (7.7) |
@@ -89,7 +89,7 @@ Revisión de `home.html`, `base.html` y `admin.html` contra WCAG 2.2 AA:
 | **A-01**: el `select` de estado en `admin.html` no tiene etiqueta (WCAG 1.3.1 / 4.1.2) | ✘ Agregar `<label>` o `aria-label="Nuevo estado"` |
 | **A-02**: el mensaje de confirmación no se anuncia a lectores de pantalla (WCAG 4.1.3) | ✘ Agregar `role="status"` al `<p class="message">` |
 | Botones con texto ambiguo ("Guardar", "Actualizar") repetidos por fila | Mejora: incluir el título del incidente en un texto accesible |
-| Contraste y foco visible | Pendiente de medir con herramienta del navegador |
+| Contraste y foco visible | No verificado en esta revisión; requiere medirse con una herramienta de contraste antes del tag de entrega |
 
 ## 7.7. Defectos, cobertura y deuda técnica
 
@@ -101,21 +101,25 @@ Comando: `CAMPUS_DB_PATH=/tmp/x.db python -m coverage run --source=prototype_cam
 | --- | --- | --- | --- |
 | Pruebas automatizadas | 1 (en verde) | Una por criterio de aceptación crítico | Agregar las pruebas de D-03 y de validación |
 | Cobertura de `aplicacion.py` | **76 %** (106/139 sentencias) | ≥ 80 % | Por debajo: lo no cubierto son justamente los caminos de error y seguridad |
-| Defectos críticos o altos abiertos | 2 (D-01, D-02) | 0 antes del tag de entrega | Bloquean el `tp5-v1.0.0` |
+| Defectos críticos o altos abiertos | 2 (D-01 [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24), D-02 [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25)) | 0 antes del tag de entrega | Bloquean el `tp5-v1.0.0` |
 
 ### Registro de defectos
 
 Severidad: **Crítica** (bloquea el uso o la seguridad) · **Alta** (falla sin alternativa o expone datos) ·
 **Media** (hay alternativa) · **Baja** (cosmética). Un defecto crítico abierto bloquea el pase a Hecha y el
-despliegue.
+despliegue. Los defectos de severidad alta se registran como Issues con etiquetas `bug` y `risk`; los de
+severidad media o baja se controlan en este registro hasta que se planifique su corrección.
 
 | ID | Defecto | Severidad | Historia / riesgo | Corrección propuesta |
 | --- | --- | --- | --- | --- |
-| D-01 | La evidencia se valida con el `content_type` que declara el cliente: un `.sh` declarado como `image/png` se acepta | Alta | HU-04 / R-03 | Verificar la firma del archivo (bytes iniciales) y la extensión; prueba de regresión |
-| D-02 | `/evidencias` se sirve con `StaticFiles` sin autenticación: el archivo se descarga sin sesión | Alta | HU-04 / R-11 | Ruta que verifique sesión y permiso; prueba CP-04-03 |
+| D-01 · [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) | La evidencia se valida con el `content_type` que declara el cliente: un `.sh` declarado como `image/png` se acepta | Alta | HU-04 / R-03 | Validar la firma real (PNG `89 50 4E 47`, JPEG `FF D8 FF`, PDF `%PDF-`), no solo `content_type`; prueba de regresión |
+| D-02 · [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) | `/evidencias` se sirve con `StaticFiles` sin autenticación: el archivo se descarga sin sesión | Alta | HU-04 / R-11 | Quitar el acceso público a `/evidencias/` y servir cada archivo por una ruta que exija sesión y compruebe que el usuario es dueño del incidente o administrador; prueba CP-04-03 |
 | D-03 | No hay pruebas automatizadas de 401/403 ni de entradas inválidas | Media | R-10 | Agregar casos a `prueba_aplicacion.py` |
 | A-01 | `select` de estado sin etiqueta | Media | HU-08 / R-06 | `aria-label` |
 | A-02 | Mensajes no anunciados a lectores de pantalla | Baja | R-06 | `role="status"` |
+
+**Cierre técnico de D-01 y D-02:** no se corrigen en el PR documental #23. Samuel Fernandez los corrige en una rama
+técnica con pruebas de regresión; las Issues [#24](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/24) y [#25](https://github.com/SamuelF90/IS3_U2_EQUIPO-05_FERNANDEZ-Duarte/issues/25) **bloquean el tag `tp5-v1.0.0`**.
 
 ### Registro de deuda técnica
 

@@ -40,7 +40,7 @@ no agrega alcance dentro del Sprint; negocia el orden del backlog.
 | Canal | Uso | Regla | Respuesta esperada |
 | --- | --- | --- | --- |
 | Eventos Scrum | Planning, Daily, Refinamiento, Review, Retrospectiva | Con timebox y salida registrada | — |
-| GitHub Issues y [Project](https://github.com/users/SamuelF90/projects/1) | Historias, tareas, defectos y riesgos (etiqueta `riesgo`) | **Fuente única** del estado del trabajo | Se actualiza al cambiar de columna |
+| GitHub Issues y [Project](https://github.com/users/SamuelF90/projects/1) | Historias, tareas, defectos (etiqueta `bug`) y riesgos que requieren trabajo técnico (etiqueta `risk`) | **Fuente única** del estado del trabajo | Se actualiza al cambiar de columna |
 | Pull Requests | Revisión de código y documentación | Las observaciones quedan escritas en el PR | 1 día hábil |
 | Mensajería del equipo | Coordinación diaria y consultas rápidas | Lo que se decide ahí se copia a la Issue correspondiente | Mismo día |
 | Registro de supuestos funcionales | Dudas cuando el PO no está disponible | El equipo avanza con un supuesto explícito; el PO lo confirma o corrige en su próxima sesión | Máximo 2 días hábiles |
